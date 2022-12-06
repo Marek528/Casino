@@ -67,6 +67,7 @@ void welcome(){
     }
     cout << termcolor::white << "Tvoj vklad (EUR): ";
     cin >> peniaze;
+    system("cls");
 }
 
 
