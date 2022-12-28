@@ -12,7 +12,7 @@ void vypis_listy(wstring x, wstring y, int row)
 {
     for (int i = 0; i < 15; i++)
     {
-        gotoxy(56+i, row);
+        gotoxy(56 + i, row);
         wcout << x;
     }
 
@@ -30,7 +30,7 @@ void vypis_listy(wstring x, wstring y, int row)
 
     for (int i = 0; i < 15; i++)
     {
-        gotoxy(88+i, row);
+        gotoxy(88 + i, row);
         wcout << x;
     }
 }
@@ -65,26 +65,36 @@ void screen()
 
     riadok(leftTop, rightTop, 1, conMidTop);
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 3; i++)
     {
-        gotoxy(55, 2+i);
+        gotoxy(55, 2 + i);
         wcout << pole << endl;
+        if (i == 1)
+        {
+            gotoxy(55, 3);
+            wcout << L"\x2551       $       \x2551       $       \x2551       $       \x2551" << endl;
+        }
     }
 
-    riadok(conMidStart, conMidEnd, 6, krizik);
+    riadok(conMidStart, conMidEnd, 5, krizik);
 
-    gotoxy(55, 7);
-    wcout << pole << endl;
+    gotoxy(55, 6);
+    wcout << L"\x2551       $       \x2551       $       \x2551       $       \x2551" << endl;
 
-    riadok(conMidStart, conMidEnd, 8, krizik);
+    riadok(conMidStart, conMidEnd, 7, krizik);
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 3; i++)
     {
-        gotoxy(55, 9+i);
+        gotoxy(55, 8 + i);
         wcout << pole << endl;
+        if (i == 1)
+        {
+            gotoxy(55, 9);
+            wcout << L"\x2551       $       \x2551       $       \x2551       $       \x2551" << endl;
+        }
     }
 
-    riadok(leftBot, rightBot, 13, conMidBot);
+    riadok(leftBot, rightBot, 11, conMidBot);
     cout << termcolor::white << endl;
 }
 
