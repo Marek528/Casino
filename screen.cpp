@@ -8,6 +8,8 @@
 
 using namespace std;
 
+wstring temp1[7], temp2[7];
+
 void vypis_listy(wstring x, wstring y, int row)
 {
     for (int i = 0; i < 15; i++)
@@ -46,7 +48,7 @@ void riadok(wstring start, wstring end, int row, wstring con)
     wcout << end << endl;
 }
 
-void vypis_obrazovky(wstring znaky[6], int cislo, int cislo1, int cislo2)
+void vypis_obrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
 {
     srand(time(NULL));
     _setmode(_fileno(stdout), _O_U16TEXT);
@@ -64,9 +66,7 @@ void vypis_obrazovky(wstring znaky[6], int cislo, int cislo1, int cislo2)
     wstring rightBot = L"\x255D";
 
     wstring riadok1[] = {L"\x2551       ", znaky[cislo], L"       \x2551       ", znaky[cislo1], L"       \x2551       ", znaky[cislo2], L"       \x2551"};
-    wstring temporary1[7]; // dorobic !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     wstring riadok2[7];
-    wstring temporary2[7]; // dorobic !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     wstring riadok3[7];
 
     cout << termcolor::yellow << endl;
@@ -93,11 +93,14 @@ void vypis_obrazovky(wstring znaky[6], int cislo, int cislo1, int cislo2)
 
     riadok(conMidStart, conMidEnd, 5, krizik); // zaciatok stredovej ciary
 
-    gotoxy(55, 6);
+    
     for (int i = 0; i < 7; i++) // vyplnenie "vyhernych" znakov
     {
-        riadok2[i] = riadok1[i];
+        riadok2[i] = temp1[i];
     }
+    gotoxy(55, 6);
+    wcout << pole << endl;
+    gotoxy(55, 6);
     for (int i = 0; i < 7; i++) // stredovy riadok so znakmi
     {
         wcout << riadok2[i];
@@ -111,7 +114,7 @@ void vypis_obrazovky(wstring znaky[6], int cislo, int cislo1, int cislo2)
 
     for (int i = 0; i < 7; i++)
     {
-        riadok3[i] = riadok2[i];   
+        riadok3[i] = temp2[i];
     }
     for (int i = 0; i < 3; i++) // dalsie 3 riadky
     {
@@ -133,25 +136,51 @@ void vypis_obrazovky(wstring znaky[6], int cislo, int cislo1, int cislo2)
 
     riadok(leftBot, rightBot, 11, conMidBot); // posledny riadok
     cout << termcolor::white << endl;
+
+    for (int i = 0; i < 7; i++)
+    {
+        temp1[i] = riadok1[i];
+        temp2[i] = riadok2[i];
+    }
 }
 
-void screen(wstring znaky[6])
+void screen(wstring znaky[9])
 {
+    int counter;
     _setmode(_fileno(stdout), _O_U16TEXT);
 
-    while (true)
+    while (counter < 10)
     {
-        int index = rand() % 6;
-        int index2 = rand() % 6;
-        int index3 = rand() % 6;
+        gotoxy(7, 2);
+        cout << termcolor::red << endl;
+        wcout << "Budget: 50 $";
+        cout << termcolor::white << endl;
+        int index = rand() % 9;
+        int index2 = rand() % 9;
+        int index3 = rand() % 9;
         vypis_obrazovky(znaky, index, index2, index3);
-        Sleep(1000);
+        Sleep(600);
+
+        if (counter > 5)
+        {
+            Sleep(700);
+            if (counter > 7)
+            {
+                Sleep(750);
+                if (counter == 9)
+                {
+                    break;
+                }
+            }
+        }
+
+        counter++;
     }
 }
 
 int main()
 {
-    wstring arr[] = {L"@", L"#", L"$", L"%", L"&", L"*"};
+    wstring arr[] = {L"@", L"#", L"$", L"%", L"&", L"*", L"+", L"^", L"?"};
 
     system("cls");
     nastavenie_okna(1280, 720);
