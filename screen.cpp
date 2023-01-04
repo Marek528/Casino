@@ -1,14 +1,17 @@
 #include <iostream>
 #include <windows.h>
-#include "functions.cpp"
+#include "functions.hpp"
 #include "libraries/termcolor.hpp"
+#include <conio.h>
 
 #include <io.h>
 #include <fcntl.h>
 
 using namespace std;
 
-wstring temp1[7], temp2[7];
+wstring temp1[7], temp2[7], vyhernyRiadok[3];
+float stavka;
+
 
 void vypis_listy(wstring x, wstring y, int row)
 {
@@ -48,7 +51,45 @@ void riadok(wstring start, wstring end, int row, wstring con)
     wcout << end << endl;
 }
 
-void vypis_obrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
+void vymazRiadok(){
+    wcout << "\r";
+    wcout << "                                              ";
+    wcout << "\r";
+}
+
+void kontrolaVyhry(){
+    if(vyhernyRiadok[0] == vyhernyRiadok[1] && vyhernyRiadok[0] == vyhernyRiadok[2]){
+        peniaze += (stavka * 2); 
+        gotoxy(80, 12);
+        wcout << "vyhral si!!" << endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        wcout << "na ucet sa ti pripisalo " << peniaze << "eur";
+    }
+}
+
+void podanieStavky(){
+    while(true){
+        wcout << "kolko chces stavit?: ";
+        cin >> stavka;
+        //vymaze riadok
+        vymazRiadok();
+        if(stavka < peniaze){
+            peniaze -= stavka;
+            break;
+        }
+        else{
+            wcout << "nemozes stavit menej ako mas!!";
+            //vymaze riadok
+            vymazRiadok();
+            stavka = 0;
+            continue;
+        }
+    }
+}
+
+
+
+
+void vypis_obrazovky(wstring znaky[], int cislo, int cislo1, int cislo2)
 {
     srand(time(NULL));
     _setmode(_fileno(stdout), _O_U16TEXT);
@@ -68,6 +109,7 @@ void vypis_obrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
     wstring riadok1[] = {L"\x2551       ", znaky[cislo], L"       \x2551       ", znaky[cislo1], L"       \x2551       ", znaky[cislo2], L"       \x2551"};
     wstring riadok2[7];
     wstring riadok3[7];
+    
 
     cout << termcolor::yellow << endl;
 
@@ -142,22 +184,30 @@ void vypis_obrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
         temp1[i] = riadok1[i];
         temp2[i] = riadok2[i];
     }
+
+   vyhernyRiadok[0] = riadok2[1];
+   vyhernyRiadok[1] = riadok2[3];
+   vyhernyRiadok[2] = riadok2[5];
 }
 
 void screen(wstring znaky[9])
 {
-    int counter;
+    int counter = 0;
     _setmode(_fileno(stdout), _O_U16TEXT);
 
-    while (counter < 10)
-    {
+    podanieStavky();
+    system("cls");
+
+    while (true)
+    {        
         gotoxy(7, 2);
-        cout << termcolor::red << endl;
-        wcout << "Budget: 50 $";
+        cout << termcolor::blue << endl;
+        wcout << "Tvoj aktualny balans: " << peniaze << "\t";
+        wcout << "Stavil si: " << stavka;
         cout << termcolor::white << endl;
-        int index = rand() % 9;
-        int index2 = rand() % 9;
-        int index3 = rand() % 9;
+        int index = rand() % 2;
+        int index2 = rand() % 2;
+        int index3 = rand() % 2;
         vypis_obrazovky(znaky, index, index2, index3);
         Sleep(600);
 
@@ -169,13 +219,27 @@ void screen(wstring znaky[9])
                 Sleep(750);
                 if (counter == 9)
                 {
-                    break;
+                    // opyta sa ci chces tocit odznova
+                    wcout << "chces tocit znova? ENTER: ano, BACKSPACE: nie";
+                    int znova = getch();
+                    vymazRiadok();
+                    if(znova == 13){
+                        podanieStavky();
+                        counter = 0;
+                        continue;
+                    }
+                    else if(znova == 127 || znova == 8){
+                        break;
+                    }
                 }
             }
         }
+        
 
         counter++;
+        
     }
+
 }
 
 int main()
@@ -185,6 +249,7 @@ int main()
     system("cls");
     nastavenie_okna(1280, 720);
     screen(arr);
+    
 
     return 0;
 }
