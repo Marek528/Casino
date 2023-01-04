@@ -1,5 +1,7 @@
 #include <windows.h>
 
+int peniaze;
+
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
