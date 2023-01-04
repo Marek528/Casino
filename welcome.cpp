@@ -8,8 +8,7 @@
 using namespace std;
 
 
-int peniaze;
-string kod;
+
 
 
 
@@ -27,11 +26,7 @@ void medzery(int medzier){
 void welcome(){
 
 
-    HWND konzola = GetConsoleWindow();
-    RECT ConsoleRect;
-    GetWindowRect(konzola, &ConsoleRect);
-
-    MoveWindow(konzola, ConsoleRect.left, ConsoleRect.top, 1280, 720, TRUE);
+    
 
     string gold[] =    { "    # # #         # # #       #        # # #    ",
                          "   #            #       #     #        #     #  ",
@@ -65,14 +60,12 @@ void welcome(){
         cout << termcolor::yellow << casino[i] << endl;
         Sleep(150);
     }
-    cout << termcolor::white << "Tvoj vklad (EUR): ";
-    cin >> peniaze;
-    system("cls");
+    cout << termcolor::white << endl;
 }
 
 
 
 
-int main(void){
+/*int main(void){
     welcome();
-}
+}*/

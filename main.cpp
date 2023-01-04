@@ -3,7 +3,18 @@
 #include "screen.cpp"
 
 
+
 int main(void){
+    wstring arr[] = {L"@", L"#"/*, L"$", L"%", L"&", L"*", L"+", L"^", L"?"*/};
+
+    system("cls");
+
     welcome();
-    screen();
+    cout << "tvoj vklad: ";
+    cin >> peniaze;
+
+    system("cls");
+    
+    screen(arr);
+    
 }
