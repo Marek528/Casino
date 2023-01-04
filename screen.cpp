@@ -10,10 +10,9 @@
 using namespace std;
 
 wstring temp1[7], temp2[7], vyhernyRiadok[3];
-float stavka;
+int stavka;
 
-
-void vypis_listy(wstring x, wstring y, int row)
+void vypisListy(wstring x, wstring y, int row)
 {
     for (int i = 0; i < 15; i++)
     {
@@ -46,7 +45,7 @@ void riadok(wstring start, wstring end, int row, wstring con)
 
     gotoxy(55, row);
     wcout << start;
-    vypis_listy(lista, con, row);
+    vypisListy(lista, con, row);
     gotoxy(103, row);
     wcout << end << endl;
 }
@@ -59,14 +58,16 @@ void vymazRiadok(){
 
 void vymazRiadky(){
     gotoxy(0, 12);
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 10; i++)
+    {
         wcout << "                                                              " << endl;
     }
     gotoxy(0, 12);
 }
 
-void kontrolaVyhry(){
-    if(vyhernyRiadok[0] == vyhernyRiadok[1] && vyhernyRiadok[0] == vyhernyRiadok[2]){
+void kontrolaVyhry(){ // dorobit !!!!!
+    if(vyhernyRiadok[0] == vyhernyRiadok[1] && vyhernyRiadok[0] == vyhernyRiadok[2])
+    {
         peniaze += (stavka * 2); 
         gotoxy(80, 12);
         wcout << "vyhral si!!" << endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -80,11 +81,13 @@ void podanieStavky(){
         cin >> stavka;
         //vymaze riadok
         vymazRiadky();
-        if(stavka <= peniaze){
+        if(stavka <= peniaze)
+        {
             peniaze -= stavka;
             break;
         }
-        else{
+        else
+        {
             wcout << "nemozes stavit viac ako mas!!" << endl;
             stavka = 0;
             continue;
@@ -92,10 +95,7 @@ void podanieStavky(){
     }
 }
 
-
-
-
-void vypis_obrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
+void vypisObrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
 {
     srand(time(NULL));
     _setmode(_fileno(stdout), _O_U16TEXT);
@@ -201,31 +201,21 @@ void screen(wstring znaky[9])
     int counter = 0;
     _setmode(_fileno(stdout), _O_U16TEXT);
 
-    while(true){
-        wcout << "kolko chces stavit? ";
-        cin >> stavka;
-        if(stavka < peniaze){
-            peniaze -= stavka;
-            break;
-        }
-        else{
-            wcout << "nemozes stavit viac ako mas! ";
-            continue;
-        }
-    }
+    podanieStavky();
     system("cls");
 
     while (true)
-    {        
-        gotoxy(7, 2);
+    {
+        gotoxy(18, 4);
         cout << termcolor::blue << endl;
-        wcout << "Tvoj aktualny balans: " << peniaze << "\t";
+        wcout << "Tvoj aktualny balans: " << peniaze;
+        gotoxy(24, 6);
         wcout << "Stavil si: " << stavka;
         cout << termcolor::white << endl;
         int index = rand() % 9;
         int index2 = rand() % 9;
         int index3 = rand() % 9;
-        vypis_obrazovky(znaky, index, index2, index3);
+        vypisObrazovky(znaky, index, index2, index3);
         Sleep(600);
 
         if (counter > 5)
@@ -241,6 +231,7 @@ void screen(wstring znaky[9])
                     int znova = getch();
                     vymazRiadok();
                     if(znova == 13){
+                        stavka = 0;
                         podanieStavky();
                         counter = 0;
                         continue;
@@ -251,10 +242,9 @@ void screen(wstring znaky[9])
                 }
             }
         }
-        
 
         counter++;
-        
+
     }
 
 }

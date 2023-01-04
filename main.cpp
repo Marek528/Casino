@@ -2,10 +2,9 @@
 #include "welcome.cpp"
 #include "screen.cpp"
 
-
-
 int main(void){
-    wstring arr[] = {L"@", L"#"/*, L"$", L"%", L"&", L"*", L"+", L"^", L"?"*/};
+    nastavenieOkna(1280, 720);
+    wstring arr[] = {L"@", L"#", L"$", L"%", L"&", L"*", L"+", L"^", L"?"};
 
     system("cls");
 

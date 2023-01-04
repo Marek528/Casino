@@ -5,7 +5,7 @@ int peniaze;
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
-void nastavenie_okna(int x, int y)
+void nastavenieOkna(int x, int y)
 {
     HWND konzola = GetConsoleWindow();
     RECT ConsoleRect;
