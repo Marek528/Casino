@@ -1,6 +1,6 @@
 #include <iostream>
 #include <windows.h>
-#include "functions.hpp"
+#include "functions.cpp"
 #include "libraries/termcolor.hpp"
 #include <conio.h>
 
@@ -57,12 +57,20 @@ void vymazRiadok(){
     wcout << "\r";
 }
 
+void vymazRiadky(){
+    gotoxy(0, 12);
+    for(int i = 0; i < 10; i++){
+        wcout << "                                                              " << endl;
+    }
+    gotoxy(0, 12);
+}
+
 void kontrolaVyhry(){
     if(vyhernyRiadok[0] == vyhernyRiadok[1] && vyhernyRiadok[0] == vyhernyRiadok[2]){
         peniaze += (stavka * 2); 
         gotoxy(80, 12);
         wcout << "vyhral si!!" << endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        wcout << "na ucet sa ti pripisalo " << peniaze << "eur";
+        wcout << "na ucet sa ti pripisalo " << (stavka*2) << "eur";
     }
 }
 
@@ -71,15 +79,13 @@ void podanieStavky(){
         wcout << "kolko chces stavit?: ";
         cin >> stavka;
         //vymaze riadok
-        vymazRiadok();
-        if(stavka < peniaze){
+        vymazRiadky();
+        if(stavka <= peniaze){
             peniaze -= stavka;
             break;
         }
         else{
-            wcout << "nemozes stavit menej ako mas!!";
-            //vymaze riadok
-            vymazRiadok();
+            wcout << "nemozes stavit viac ako mas!!" << endl;
             stavka = 0;
             continue;
         }
@@ -89,7 +95,7 @@ void podanieStavky(){
 
 
 
-void vypis_obrazovky(wstring znaky[], int cislo, int cislo1, int cislo2)
+void vypis_obrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
 {
     srand(time(NULL));
     _setmode(_fileno(stdout), _O_U16TEXT);
@@ -195,7 +201,18 @@ void screen(wstring znaky[9])
     int counter = 0;
     _setmode(_fileno(stdout), _O_U16TEXT);
 
-    podanieStavky();
+    while(true){
+        wcout << "kolko chces stavit? ";
+        cin >> stavka;
+        if(stavka < peniaze){
+            peniaze -= stavka;
+            break;
+        }
+        else{
+            wcout << "nemozes stavit viac ako mas! ";
+            continue;
+        }
+    }
     system("cls");
 
     while (true)
@@ -205,9 +222,9 @@ void screen(wstring znaky[9])
         wcout << "Tvoj aktualny balans: " << peniaze << "\t";
         wcout << "Stavil si: " << stavka;
         cout << termcolor::white << endl;
-        int index = rand() % 2;
-        int index2 = rand() % 2;
-        int index3 = rand() % 2;
+        int index = rand() % 9;
+        int index2 = rand() % 9;
+        int index3 = rand() % 9;
         vypis_obrazovky(znaky, index, index2, index3);
         Sleep(600);
 
@@ -242,7 +259,7 @@ void screen(wstring znaky[9])
 
 }
 
-int main()
+/*int main()
 {
     wstring arr[] = {L"@", L"#", L"$", L"%", L"&", L"*", L"+", L"^", L"?"};
 
@@ -252,4 +269,4 @@ int main()
     
 
     return 0;
-}
+}*/
