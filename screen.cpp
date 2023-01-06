@@ -208,9 +208,18 @@ void screen(wstring znaky[9])
     {
         gotoxy(18, 4);
         cout << termcolor::blue << endl;
-        wcout << "Tvoj aktualny balans: " << peniaze;
+        //riadok 212 az 222 zapezbecuje vymazanie predoslej stavky a vkladu aby sa po novom zatoceni neprekryvali hodnoty
+        wcout << "Tvoj aktualny balans: ";
+        gotoxy(41, 4);
+        wcout << "     ";
+        gotoxy(41, 4);
+        wcout << peniaze;
         gotoxy(24, 6);
-        wcout << "Stavil si: " << stavka;
+        wcout << "Stavil si: ";
+        gotoxy(36, 6);
+        wcout << "     ";
+        gotoxy(36, 6);
+        wcout << stavka;
         cout << termcolor::white << endl;
         int index = rand() % 9;
         int index2 = rand() % 9;
