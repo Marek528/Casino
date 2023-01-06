@@ -12,44 +12,6 @@ using namespace std;
 wstring temp1[7], temp2[7], vyhernyRiadok[3];
 int stavka;
 
-void vypisListy(wstring x, wstring y, int row)
-{
-    for (int i = 0; i < 15; i++)
-    {
-        gotoxy(56 + i, row);
-        wcout << x;
-    }
-
-    gotoxy(71, row);
-    wcout << y;
-
-    for (int i = 0; i < 15; i++)
-    {
-        gotoxy(72 + i, row);
-        wcout << x;
-    }
-
-    gotoxy(87, row);
-    wcout << y;
-
-    for (int i = 0; i < 15; i++)
-    {
-        gotoxy(88 + i, row);
-        wcout << x;
-    }
-}
-
-void riadok(wstring start, wstring end, int row, wstring con)
-{
-    wstring lista = L"\x2550";
-
-    gotoxy(55, row);
-    wcout << start;
-    vypisListy(lista, con, row);
-    gotoxy(103, row);
-    wcout << end << endl;
-}
-
 void vymazRiadok(){
     wcout << "\r";
     wcout << "                                              ";
@@ -77,7 +39,8 @@ void kontrolaVyhry(){ // dorobit !!!!!
 
 void podanieStavky(){
     while(true){
-        wcout << "kolko chces stavit?: ";
+        SetConsoleOutputCP(1252);
+        wcout << "kolko chces stavit? (" << (char)(128) << "): ";
         cin >> stavka;
         //vymaze riadok
         vymazRiadky();
@@ -201,6 +164,7 @@ void screen(wstring znaky[9])
     int counter = 0;
     _setmode(_fileno(stdout), _O_U16TEXT);
 
+    vypisPrazdnejObrazovky();
     podanieStavky();
     system("cls");
 

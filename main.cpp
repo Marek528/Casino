@@ -9,7 +9,8 @@ int main(void){
     system("cls");
 
     welcome();
-    cout << "tvoj vklad: ";
+    SetConsoleOutputCP(1252);
+    cout << "tvoj vklad (" << (char)(128) << "): ";
     cin >> peniaze;
 
     system("cls");
