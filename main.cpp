@@ -9,10 +9,10 @@ void vypisPenazi()
     gotoxy(18, 4);
     cout << termcolor::blue << endl;
     // riadok 12 az 22 zapezbecuje vymazanie predoslej stavky a vkladu aby sa po novom zatoceni neprekryvali hodnoty
-    wcout << "Tvoj aktualny balans: ";
-    gotoxy(40, 4);
-    wcout << "               ";
-    gotoxy(40, 4);
+    wcout << "Tvoj aktualny zostatok: ";
+    gotoxy(42, 4);
+    wcout << "             ";
+    gotoxy(42, 4);
     wcout << peniaze;
     gotoxy(24, 6);
     wcout << "Stavil si: ";
@@ -64,7 +64,15 @@ void screen(wstring znaky[22])
 
     while (true)
     {
+
+        bool mamPokracovat;
+
         vypisPenazi();
+
+        gotoxy(74, 12);
+        wcout << "            ";
+        gotoxy(66, 14);
+        wcout << "                             ";
 
         // vysvetlivky pre vyherne znaky
         cout << termcolor::red;
@@ -100,17 +108,38 @@ void screen(wstring znaky[22])
                     vypisPenazi();
                     // opyta sa ci chces tocit odznova
                     gotoxy(0, 13);
-                    wcout << "chces tocit znova? ENTER: ano, BACKSPACE: nie";
-                    int znova = getch();
-                    vymazRiadok();
-                    if (znova == 13)
+                    
+                    while(true)
                     {
-                        stavka = 0;
-                        podanieStavky();
-                        counter = 0;
+                        wcout << "chces tocit znova? ENTER: ano, BACKSPACE: nie";
+                        int znova = getch();
+                        vymazRiadok();
+                        //kontroluje enter
+                        if (znova == 13)
+                        {
+                            stavka = 0;
+                            podanieStavky();
+                            counter = 0;
+                            mamPokracovat = true;
+                            break;
+                        }
+                        //kontroluje backspace
+                        else if (znova == 127 || znova == 8)
+                        {
+                            mamPokracovat = false;
+                            break;
+                        }
+                        else
+                        {
+                            wcout << "ENTER alebo BACKSPACE" << endl;
+                            continue;
+                        }
+                    }
+                    if(mamPokracovat)
+                    {
                         continue;
                     }
-                    else if (znova == 127 || znova == 8)
+                    else if(mamPokracovat == false)
                     {
                         break;
                     }
@@ -129,8 +158,21 @@ int main(void){
 
     welcome();
     SetConsoleOutputCP(1252);
-    cout << "tvoj vklad (" << (char)(128) << "): ";
-    cin >> peniaze;
+    while(true)
+    {
+        cout << "tvoj vklad (" << (char)(128) << "): ";
+        cin >> peniaze;
+        if(peniaze <= 1000000 && peniaze > 0)
+        {
+            break;
+        }
+        else
+        {
+            peniaze = 0;
+            cout << "Mozes vlozit od 1 po 1 000 000 " << (char)(128)  << endl;
+            continue;
+        }
+    }
 
     system("cls");
     
