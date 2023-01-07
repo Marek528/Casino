@@ -27,16 +27,6 @@ void vymazRiadky(){
     gotoxy(0, 12);
 }
 
-void kontrolaVyhry(){ // dorobit !!!!!
-    if(vyhernyRiadok[0] == vyhernyRiadok[1] && vyhernyRiadok[0] == vyhernyRiadok[2])
-    {
-        peniaze += (stavka * 2); 
-        gotoxy(80, 12);
-        wcout << "vyhral si!!" << endl;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        wcout << "na ucet sa ti pripisalo " << (stavka*2) << "eur";
-    }
-}
-
 void podanieStavky(){
     while(true){
         SetConsoleOutputCP(1252);
@@ -44,25 +34,36 @@ void podanieStavky(){
         cin >> stavka;
         //vymaze riadok
         vymazRiadky();
-        if(stavka <= peniaze)
+        if (stavka > 0)
         {
-            peniaze -= stavka;
-            break;
+            if(stavka <= peniaze)
+            {
+                peniaze -= stavka;
+                break;
+            }
+            else
+            {
+                wcout << "nemozes stavit viac ako mas!!" << endl;
+                stavka = 0;
+                continue;
+            }
         }
         else
         {
-            wcout << "nemozes stavit viac ako mas!!" << endl;
+            wcout << "nemozes stavit 0" << (char)(128) << " !!" << endl;
             stavka = 0;
             continue;
         }
     }
 }
 
-void vypisObrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
+void vypisObrazovky(wstring znaky[22], int cislo, int cislo1, int cislo2)
 {
     srand(time(NULL));
+    // zmeni kodovanie konzoly na _O_U16TEXT
     _setmode(_fileno(stdout), _O_U16TEXT);
 
+    // specialne znaky pre vytvorenie okna
     wstring lista = L"\x2550";
     wstring pole = L"\x2551               \x2551               \x2551               \x2551";
     wstring krizik = L"\x256C";
@@ -158,78 +159,3 @@ void vypisObrazovky(wstring znaky[9], int cislo, int cislo1, int cislo2)
    vyhernyRiadok[1] = riadok2[3];
    vyhernyRiadok[2] = riadok2[5];
 }
-
-void screen(wstring znaky[9])
-{
-    int counter = 0;
-    _setmode(_fileno(stdout), _O_U16TEXT);
-
-    vypisPrazdnejObrazovky();
-    podanieStavky();
-    system("cls");
-
-    while (true)
-    {
-        gotoxy(18, 4);
-        cout << termcolor::blue << endl;
-        //riadok 212 az 222 zapezbecuje vymazanie predoslej stavky a vkladu aby sa po novom zatoceni neprekryvali hodnoty
-        wcout << "Tvoj aktualny balans: ";
-        gotoxy(41, 4);
-        wcout << "     ";
-        gotoxy(41, 4);
-        wcout << peniaze;
-        gotoxy(24, 6);
-        wcout << "Stavil si: ";
-        gotoxy(36, 6);
-        wcout << "     ";
-        gotoxy(36, 6);
-        wcout << stavka;
-        cout << termcolor::white << endl;
-        int index = rand() % 9;
-        int index2 = rand() % 9;
-        int index3 = rand() % 9;
-        vypisObrazovky(znaky, index, index2, index3);
-        Sleep(600);
-
-        if (counter > 5)
-        {
-            Sleep(700);
-            if (counter > 7)
-            {
-                Sleep(750);
-                if (counter == 9)
-                {
-                    // opyta sa ci chces tocit odznova
-                    wcout << "chces tocit znova? ENTER: ano, BACKSPACE: nie";
-                    int znova = getch();
-                    vymazRiadok();
-                    if(znova == 13){
-                        stavka = 0;
-                        podanieStavky();
-                        counter = 0;
-                        continue;
-                    }
-                    else if(znova == 127 || znova == 8){
-                        break;
-                    }
-                }
-            }
-        }
-
-        counter++;
-
-    }
-
-}
-
-/*int main()
-{
-    wstring arr[] = {L"@", L"#", L"$", L"%", L"&", L"*", L"+", L"^", L"?"};
-
-    system("cls");
-    nastavenie_okna(1280, 720);
-    screen(arr);
-    
-
-    return 0;
-}*/
