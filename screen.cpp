@@ -20,7 +20,7 @@ void vymazRiadok(){
 
 void vymazRiadky(){
     gotoxy(0, 12);
-    for(int i = 0; i < 36; i++)
+    for(int i = 0; i < 24; i++)
     {
         wcout << "                                                              " << endl;
     }

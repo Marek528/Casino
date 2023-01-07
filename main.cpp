@@ -23,13 +23,33 @@ void vypisPenazi()
     cout << termcolor::white << endl;
 }
 
+void vysvetlivky()
+{
+    cout << termcolor::red;
+    gotoxy(116, 3);
+    wcout << "@ x 2";
+    gotoxy(116, 4);
+    wcout << "? x 2";
+    gotoxy(116, 5);
+    wcout << "# x 3";
+    gotoxy(116, 6);
+    wcout << "+ x 3";
+    gotoxy(116, 7);
+    wcout << "* x 4";
+    gotoxy(116, 8);
+    wcout << "$ x 10";
+    cout << termcolor::white;
+}
+
 void vypisVyhry(int nasobitel)
 {
     peniaze += (stavka * nasobitel);
     gotoxy(74, 12);
+    cout << termcolor::cyan;
     wcout << "VYHRAL SI !!" << endl;
     gotoxy(66, 14);
-    wcout << "Na ucet sa ti pripisalo " << (stavka * nasobitel) << " eur" << endl;
+    SetConsoleOutputCP(1252);
+    wcout << "Na ucet sa ti pripisalo " << (stavka * nasobitel) << " " << (char)(128) << endl;
 }
 
 void kontrolaVyhry()
@@ -59,6 +79,9 @@ void screen(wstring znaky[22])
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     vypisPrazdnejObrazovky();
+    vypisPenazi();
+    vysvetlivky();
+    gotoxy(0, 13);
     podanieStavky();
     system("cls");
 
@@ -75,19 +98,7 @@ void screen(wstring znaky[22])
         wcout << "                             ";
 
         // vysvetlivky pre vyherne znaky
-        cout << termcolor::red;
-        gotoxy(116, 3);
-        wcout << "@ x 2";
-        gotoxy(116, 4);
-        wcout << "? x 2";
-        gotoxy(116, 5);
-        wcout << "# x 3";
-        gotoxy(116, 6);
-        wcout << "+ x 3";
-        gotoxy(116, 7);
-        wcout << "* x 4";
-        gotoxy(116, 8);
-        wcout << "$ x 10";
+        vysvetlivky();
 
         int index = rand() % 22;
         int index2 = rand() % 22;
