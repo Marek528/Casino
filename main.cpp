@@ -25,7 +25,7 @@ void vypisPenazi()
 
 void vysvetlivky()
 {
-    cout << termcolor::red;
+    cout << termcolor::yellow;
     gotoxy(116, 3);
     wcout << "@ x 2";
     gotoxy(116, 4);
@@ -92,6 +92,7 @@ void screen(wstring znaky[22])
 
         vypisPenazi();
 
+        // vymazanie vypisu vyhry
         gotoxy(74, 12);
         wcout << "            ";
         gotoxy(66, 14);
@@ -117,7 +118,6 @@ void screen(wstring znaky[22])
                 {
                     kontrolaVyhry();
                     vypisPenazi();
-                    // opyta sa ci chces tocit odznova
                     gotoxy(0, 13);
                     
                     while(true)
@@ -128,11 +128,29 @@ void screen(wstring znaky[22])
                         //kontroluje enter
                         if (znova == 13)
                         {
-                            stavka = 0;
-                            podanieStavky();
-                            counter = 0;
-                            mamPokracovat = true;
-                            break;
+                            if (peniaze > 0)
+                            {
+                                stavka = 0;
+                                podanieStavky();
+                                counter = 0;
+                                mamPokracovat = true;
+                                break;
+                            }
+                            else
+                            {
+                                stavka = 0;
+
+                                // ak ti dojdu peniaze, tak si vypyta dalsi vklad
+                                kontrolaPenazi();
+                                vypisPenazi();
+                                gotoxy(0, 13);
+
+                                podanieStavky();
+                                counter = 0;
+
+                                mamPokracovat = true;
+                                break;
+                            }
                         }
                         //kontroluje backspace
                         else if (znova == 127 || znova == 8)
@@ -148,11 +166,6 @@ void screen(wstring znaky[22])
                     }
                     if(mamPokracovat)
                     {
-                        if(peniaze == 0)
-                        {
-                            wcout << "Dosli ti peniaze. Tvoj novy vklad: ";
-                            cin >> peniaze; 
-                        }
                         continue;
                     }
                     else if(mamPokracovat == false)
@@ -162,7 +175,6 @@ void screen(wstring znaky[22])
                 }
             }
         }
-
         counter++;
     }
 }

@@ -43,84 +43,40 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(console, CursorPosition);
 }
 
-void vypisListy(wstring x, wstring y, int row)
+void vymazRiadok()
 {
-    for (int i = 0; i < 15; i++)
-    {
-        gotoxy(56 + i, row);
-        wcout << x;
-    }
-
-    gotoxy(71, row);
-    wcout << y;
-
-    for (int i = 0; i < 15; i++)
-    {
-        gotoxy(72 + i, row);
-        wcout << x;
-    }
-
-    gotoxy(87, row);
-    wcout << y;
-
-    for (int i = 0; i < 15; i++)
-    {
-        gotoxy(88 + i, row);
-        wcout << x;
-    }
+    wcout << "\r";
+    wcout << "                                              ";
+    wcout << "\r";
 }
 
-void riadok(wstring start, wstring end, int row, wstring con)
+void vymazRiadky()
 {
-    wstring lista = L"\x2550";
-
-    gotoxy(55, row);
-    wcout << start;
-    vypisListy(lista, con, row);
-    gotoxy(103, row);
-    wcout << end << endl;
+    gotoxy(0, 12);
+    for (int i = 0; i < 24; i++)
+    {
+        wcout << "                                                              " << endl;
+    }
+    gotoxy(0, 12);
 }
 
-void vypisPrazdnejObrazovky()
+void kontrolaPenazi()
 {
-    srand(time(NULL));
-    _setmode(_fileno(stdout), _O_U16TEXT);
-
-    wstring lista = L"\x2550";
-    wstring pole = L"\x2551               \x2551               \x2551               \x2551";
-    wstring krizik = L"\x256C";
-    wstring leftTop = L"\x2554";
-    wstring rightTop = L"\x2557";
-    wstring conMidStart = L"\x2560";
-    wstring conMidEnd = L"\x2563";
-    wstring conMidTop = L"\x2566";
-    wstring conMidBot = L"\x2569";
-    wstring leftBot = L"\x255A";
-    wstring rightBot = L"\x255D";
-
-    cout << termcolor::yellow << endl;
-
-    riadok(leftTop, rightTop, 1, conMidTop); // prvy riadok
-
-    for (int i = 0; i < 3; i++) // dalsie 3 riadky
+    while (peniaze == 0)
     {
-        gotoxy(55, 2 + i);
-        wcout << pole << endl;
+        wcout << "Dosli ti peniaze. Tvoj novy vklad: ";
+        cin >> peniaze;
+        if (peniaze <= 0)
+        {
+            peniaze = 0;
+            SetConsoleOutputCP(1252);
+            wcout << "Musis vlozit viac ako 0" << (char)(128) << " !" << endl;
+            continue;
+        }
+        else
+        {
+            vymazRiadky();
+            break;
+        }
     }
-
-    riadok(conMidStart, conMidEnd, 5, krizik); // zaciatok stredovej ciary
-
-    gotoxy(55, 6);
-    wcout << pole << endl;
-
-    riadok(conMidStart, conMidEnd, 7, krizik); // koniec stredovej ciary
-
-    for (int i = 0; i < 3; i++) // dalsie 3 riadky
-    {
-        gotoxy(55, 8 + i);
-        wcout << pole << endl;
-    }
-
-    riadok(leftBot, rightBot, 11, conMidBot); // posledny riadok
-    cout << termcolor::white << endl;
 }
