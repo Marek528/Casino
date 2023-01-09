@@ -148,6 +148,11 @@ void screen(wstring znaky[22])
                     }
                     if(mamPokracovat)
                     {
+                        if(peniaze == 0)
+                        {
+                            wcout << "Dosli ti peniaze. Tvoj novy vklad: ";
+                            cin >> peniaze; 
+                        }
                         continue;
                     }
                     else if(mamPokracovat == false)
