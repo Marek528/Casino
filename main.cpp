@@ -118,8 +118,9 @@ void screen(wstring znaky[22])
                 {
                     kontrolaVyhry();
                     vypisPenazi();
+                    gotoxy(0, 0);
                     gotoxy(0, 13);
-                    
+
                     while(true)
                     {
                         wcout << "chces tocit znova? ENTER: ano, BACKSPACE: nie";

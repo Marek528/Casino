@@ -53,7 +53,7 @@ void vymazRiadok()
 void vymazRiadky()
 {
     gotoxy(0, 12);
-    for (int i = 0; i < 24; i++)
+    for (int i = 0; i < 30; i++)
     {
         wcout << "                                                              " << endl;
     }
@@ -64,13 +64,17 @@ void kontrolaPenazi()
 {
     while (peniaze == 0)
     {
+        gotoxy(0, 13);
         wcout << "Dosli ti peniaze. Tvoj novy vklad: ";
         cin >> peniaze;
+
+        vymazRiadky();
         if (peniaze <= 0)
         {
             peniaze = 0;
             SetConsoleOutputCP(1252);
             wcout << "Musis vlozit viac ako 0" << (char)(128) << " !" << endl;
+            gotoxy(0, 0);
             continue;
         }
         else

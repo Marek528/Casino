@@ -54,6 +54,8 @@ void riadok(wstring start, wstring end, int row, wstring con)
 
 void podanieStavky(){
     while(true){
+        gotoxy(0, 0);
+        gotoxy(0, 13);
         SetConsoleOutputCP(1252);
         wcout << "kolko chces stavit? (" << (char)(128) << "): ";
         cin >> stavka;
@@ -64,6 +66,7 @@ void podanieStavky(){
             if(stavka <= peniaze)
             {
                 peniaze -= stavka;
+                gotoxy(0, 0);
                 break;
             }
             else
